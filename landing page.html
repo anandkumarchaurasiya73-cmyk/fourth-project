@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC | Next-Gen Laundry Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root { --irctc-blue: #003399; --irctc-orange: #ff9933; --rail-gold: #ffcc00; }
+        
+        body { font-family: 'Inter', sans-serif; background: #fafafa; overflow-x: hidden; }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,51,153,0.95) 0%, rgba(0,102,204,0.85) 100%), 
+                        url('https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&q=80&w=2071');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .floating-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .train-track {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--rail-gold) 0, var(--rail-gold) 20px, transparent 20px, transparent 40px);
+            width: 100%;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 glass-nav py-4 px-10 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <img src="https://www.irctc.co.in/nget/assets/images/logo.png" class="w-12 h-12 bg-white rounded-full p-1 shadow-lg">
+            <div class="text-white">
+                <h2 class="font-black text-xl leading-none">IRCTC</h2>
+                <p class="text-[10px] font-bold tracking-[3px] uppercase text-orange-400">Laundry Portal</p>
+            </div>
+        </div>
+        <div class="hidden md:flex gap-8 text-white font-bold text-sm uppercase tracking-widest">
+            <a href="#" class="hover:text-yellow-400 transition">Overview</a>
+            <a href="#" class="hover:text-yellow-400 transition">NDLS Unit</a>
+            <a href="#" class="hover:text-yellow-400 transition">Contact</a>
+        </div>
+        <a href="login.html" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-black text-xs transition transform hover:scale-105 shadow-xl">
+            STAFF LOGIN <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </nav>
+
+    <section class="h-screen flex items-center justify-center hero-gradient text-white relative overflow-hidden">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 items-center gap-12 z-10">
+            <div id="hero-text">
+                <span class="bg-yellow-500 text-blue-900 px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest mb-6 inline-block">
+                    Official Management System
+                </span>
+                <h1 class="text-6xl md:text-7xl font-black leading-tight mb-6">
+                    Digitizing <br><span class="text-orange-400">Railway Linen</span> Services.
+                </h1>
+                <p class="text-lg text-blue-100 mb-10 max-w-lg leading-relaxed">
+                    Smart reconciliation, real-time batch tracking, and automated inventory management for the Indian Railways' laundry units. 
+                </p>
+                <div class="flex gap-4">
+                    <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" class="border-2 border-white/30 hover:bg-white/10 px-8 py-4 rounded-xl font-bold transition">
+                        EXPLORE FEATURES
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative hidden md:block" id="hero-img">
+                <div class="bg-white/10 backdrop-blur-3xl p-4 rounded-[40px] border border-white/20 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&q=80&w=1000" class="rounded-[30px] shadow-inner grayscale-[30%] hover:grayscale-0 transition duration-700">
+                </div>
+                <div class="absolute -bottom-10 -left-10 bg-white p-6 rounded-3xl shadow-2xl floating-card">
+                    <p class="text-blue-900 text-xs font-black uppercase">Daily Capacity</p>
+                    <h3 class="text-4xl font-black text-blue-900">50,000+</h3>
+                    <p class="text-gray-400 text-[10px] font-bold">Linen Units Processed</p>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 w-full train-track opacity-30"></div>
+    </section>
+
+    <section id="features" class="py-24 bg-white">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <h2 class="text-4xl font-black text-blue-900 mb-4">SMART LOGISTICS CONTROL</h2>
+            <div class="h-1.5 w-24 bg-orange-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-10">
+            <div class="bg-blue-50 p-10 rounded-[40px] floating-card border border-blue-100">
+                <div class="w-16 h-16 bg-blue-900 text-white flex items-center justify-center rounded-2xl mb-8 text-2xl shadow-lg shadow-blue-200">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h3 class="text-2xl font-black text-blue-900 mb-4">QR Scanning</h3>
+                <p class="text-gray-500 font-medium leading-relaxed italic">
+                    Instantly scan batch bundles using QR codes to reconcile inward and outward inventory with 100% accuracy.
+                </p>
+            </div>
+
+            <div class="bg-orange-50 p-10 rounded-[40px] floating-card border border-orange-100">
+                <div class="w-16 h-16 bg-orange-500 text-white flex items-center justify-center rounded-2xl mb-8 text-2xl shadow-lg shadow-orange-200">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3 class="text-2xl font-black text-blue-900 mb-4">Loss Monitoring</h3>
+                <p class="text-gray-500 font-medium leading-relaxed italic">
+                    Real-time tracking of damaged and missing items (Linen Loss) with automated shortage reports for every train.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 p-10 rounded-[40px] floating-card border border-gray-100">
+                <div class="w-16 h-16 bg-gray-800 text-white flex items-center justify-center rounded-2xl mb-8 text-2xl shadow-lg shadow-gray-200">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h3 class="text-2xl font-black text-blue-900 mb-4">Digital Audit</h3>
+                <p class="text-gray-500 font-medium leading-relaxed italic">
+                    Generate daily, weekly, and monthly audit logs at a single click. No more manual registers or paper trails.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 py-12 text-center border-t-8 border-yellow-500">
+        <img src="https://www.irctc.co.in/nget/assets/images/logo.png" class="w-16 mx-auto mb-6 bg-white rounded-full p-1">
+        <p class="text-blue-200 text-sm font-bold tracking-widest uppercase">Indian Railway Catering and Tourism Corporation</p>
+        <p class="text-blue-400 text-[10px] mt-2 italic">© 2026 Designed for Linen Management Unit, NDLS</p>
+    </footer>
+
+    <script>
+        // Hero Section Animations
+        gsap.from("#hero-text h1", { duration: 1, y: 50, opacity: 0, ease: "power4.out" });
+        gsap.from("#hero-text p", { duration: 1, y: 30, opacity: 0, delay: 0.3, ease: "power4.out" });
+        gsap.from("#hero-img", { duration: 1.5, x: 100, opacity: 0, delay: 0.5, ease: "power4.out" });
+    </script>
+</body>
+</html>

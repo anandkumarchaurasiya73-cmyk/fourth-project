@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC | Linen & Laundry Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        :root { --rail-blue: #003399; --rail-gold: #ffcc00; --soft-bg: #f4f7fe; }
+        body { background-color: var(--soft-bg); font-family: 'Inter', sans-serif; }
+        
+        .hidden-page { display: none !important; }
+        .sidebar { background: linear-gradient(180deg, #002266 0%, #0044cc 100%); }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        .stat-card { transition: all 0.3s ease; border-left: 5px solid transparent; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .missing-row { background-color: #fff5f5; border-left: 4px solid #b4139f; }
+
+        .login-screen {
+            background: linear-gradient(rgba(0, 34, 102, 0.8), rgba(0, 34, 102, 0.8)), 
+                        url('https://img.etimg.com/thumb/width-1200,height-1200,imgsize-39456,resizemode-75,msid-122059799/markets/stocks/news/irctc-shares-in-focus-as-indian-railways-to-hike-passenger-fares-from-july-1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <div id="login-section" class="flex w-full h-full items-center justify-center login-screen z-[100]">
+        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-yellow-500">
+            <div class="text-center mb-8">
+                <img src="https://www.irctc.co.in/nget/assets/images/logo.png" class="w-16 mx-auto mb-4">
+                <h1 class="text-2xl font-black text-blue-900 uppercase">Admin Staff Login</h1>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Laundry Management System</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase">Staff ID</label>
+                    <input type="text" id="staff-id" required class="w-full bg-gray-50 border p-3 rounded-xl outline-none focus:ring-2 ring-blue-900" placeholder="e.g. IRCTC-45">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase">Security Pin</label>
+                    <input type="password" id="staff-pin" required class="w-full bg-gray-50 border p-3 rounded-xl outline-none focus:ring-2 ring-blue-900" placeholder="••••">
+                </div>
+                <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-800 transition uppercase tracking-widest">
+                    Enter Dashboard
+                </button>
+            </form>
+            <p class="text-[9px] text-center text-gray-400 mt-6 italic underline">Authorized personnel only. Access is logged.</p>
+        </div>
+    </div>
+
+    <div id="main-dashboard" class="hidden-page flex w-full h-full">
+        <aside class="w-24 sidebar flex flex-col items-center py-8 shadow-2xl z-50">
+            <div class="mb-10">
+                <img src="https://www.irctc.co.in/nget/assets/images/logo.png" class="w-12 h-12 object-contain bg-white rounded-full p-1">
+            </div>
+            <nav class="flex flex-col gap-8 text-blue-200">
+                <button class="hover:text-white transition"><i class="fas fa-chart-line text-2xl text-rail-gold"></i></button>
+                <button class="hover:text-white transition"><i class="fas fa-boxes text-2xl"></i></button>
+                <button class="hover:text-white transition"><i class="fas fa-qrcode text-2xl"></i></button>
+                <button onclick="logout()" class="hover:text-red-400 transition" title="Logout Staff"><i class="fas fa-user-shield text-2xl"></i></button>
+                <button class="hover:text-white transition"><i class="fas fa-history text-2xl"></i></button>
+            </nav>
+            <div onclick="logout()" class="mt-auto text-blue-300 hover:text-red-400 cursor-pointer transition"><i class="fas fa-power-off text-xl"></i></div>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="h-20 bg-white shadow-sm flex items-center justify-between px-10 border-b-4 border-yellow-500">
+                <div>
+                    <h1 class="text-2xl font-black text-blue-900 tracking-tight text-shadow">LAUNDRY CONTROL CENTER</h1>
+                    <p class="text-xs font-bold text-gray-400">UNIT: NEW DELHI RAILWAY STATION (NDLS)</p>
+                </div>
+                
+                <div class="flex items-center gap-8">
+                    <button onclick="toggleScanner()" class="bg-blue-900 text-white px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-blue-800 transition text-sm">
+                        <i class="fas fa-camera"></i> LIVE SCAN
+                    </button>
+                    <div class="flex items-center gap-4 border-l pl-8">
+                        <div class="text-right">
+                            <p id="display-staff-id" class="text-sm font-bold text-blue-900">Admin Staff</p>
+                            <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">ON DUTY</span>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=003399&color=fff" class="w-10 h-10 rounded-full border-2 border-yellow-500">
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8 overflow-y-auto space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="glass p-6 rounded-2xl stat-card border-blue-600">
+                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Total Inward</p>
+                        <h2 id="top-inward" class="text-4xl font-black text-blue-900">0</h2>
+                    </div>
+                    <div class="glass p-6 rounded-2xl stat-card border-green-500">
+                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Ready</p>
+                        <h2 class="text-4xl font-black text-green-600" id="top-ready">0</h2>
+                    </div>
+                    <div class="glass p-6 rounded-2xl stat-card border-red-500">
+                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Damaged</p>
+                        <h2 class="text-4xl font-black text-red-600" id="top-damaged">0</h2>
+                    </div>
+                    <div class="glass p-6 rounded-2xl stat-card border-yellow-500">
+                        <p class="text-gray-400 text-xs font-bold uppercase mb-2">Missing</p>
+                        <h2 class="text-4xl font-black text-yellow-600" id="top-missing">0</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 glass rounded-3xl p-6 shadow-lg border-2 border-dashed border-gray-300">
+                        <h3 class="font-bold text-blue-900 mb-4 flex items-center justify-between text-sm uppercase">SCANNER FEED <span class="text-[10px] text-red-500 animate-pulse">● LIVE</span></h3>
+                        <div id="reader" class="rounded-xl overflow-hidden shadow-inner bg-black h-48"></div>
+                        <p class="text-center text-[10px] text-gray-400 mt-4 italic">Align barcode/QR code within the frame</p>
+                    </div>
+
+                    <div class="lg:col-span-2 glass rounded-3xl p-8">
+                        <h3 class="font-bold text-blue-900 mb-6 uppercase tracking-wider text-sm">Batch Reconciliation</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Category</label>
+                                <select id="item-type" class="bg-gray-50 border p-2 rounded-xl outline-none text-sm">
+                                    <option>Pillow Case</option>
+                                    <option>Woolen Blanket</option>
+                                    <option>White Bedsheet</option>
+                                    <option>Hand Towel</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Total Sent</label>
+                                <input type="number" id="q-total" value="1000" oninput="autoCalc()" class="bg-gray-50 border p-2 rounded-xl font-bold text-sm">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] font-bold text-green-600 uppercase">Received OK</label>
+                                <input type="number" id="q-ok" placeholder="0" oninput="autoCalc()" class="bg-green-50 border p-2 rounded-xl font-bold text-sm">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] font-bold text-red-600 uppercase">Damaged</label>
+                                <input type="number" id="q-dmg" placeholder="0" oninput="autoCalc()" class="bg-red-50 border p-2 rounded-xl font-bold text-sm">
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[10px] font-bold text-yellow-600 uppercase">Missing</label>
+                                <input type="number" id="q-missing" readonly placeholder="0" class="bg-yellow-50 border-yellow-200 border p-2 rounded-xl font-bold text-sm text-yellow-700 cursor-not-allowed">
+                            </div>
+                        </div>
+                        <button onclick="processData()" class="w-full bg-blue-900 text-white font-black py-3 rounded-xl shadow-lg hover:bg-blue-800 transition text-xs tracking-widest">
+                            GENERATE BATCH REPORT
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass rounded-3xl shadow-xl overflow-hidden">
+                    <div class="bg-blue-900 p-4 text-white flex justify-between px-8 text-xs">
+                        <span class="font-bold tracking-widest uppercase">Batch Audit Log</span>
+                        <span class="bg-yellow-500 text-blue-900 px-3 py-1 rounded font-black">NDLS SESSION</span>
+                    </div>
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-gray-400 text-[10px] font-bold uppercase border-b bg-gray-50">
+                                <th class="p-6">Batch ID</th>
+                                <th>Linen Type</th>
+                                <th>In-Wash</th>
+                                <th class="text-green-600">Good</th>
+                                <th class="text-red-600">Dmg</th>
+                                <th class="text-yellow-600">Missing</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-rows" class="divide-y divide-gray-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // DUMMY DATA FOR INITIAL LOAD
+        let inventory = [
+            { id: "B-9842", type: "Woolen Blanket", total: 1200, ok: 1150, dmg: 30, missing: 20, status: "SHORTAGE" },
+            { id: "B-7721", type: "White Bedsheet", total: 5000, ok: 5000, dmg: 0, missing: 0, status: "CLEARED" },
+            { id: "B-4405", type: "Pillow Case", total: 2500, ok: 2480, dmg: 15, missing: 5, status: "SHORTAGE" }
+        ];
+
+        // PAGE SWITCHING
+        function handleLogin(e) {
+            e.preventDefault();
+            const staffId = document.getElementById('staff-id').value;
+            document.getElementById('login-section').classList.add('hidden-page');
+            document.getElementById('main-dashboard').classList.remove('hidden-page');
+            document.getElementById('display-staff-id').innerText = staffId;
+            updateTable(); 
+        }
+
+        function logout() {
+            if(confirm("Are you sure you want to logout?")) {
+                document.getElementById('main-dashboard').classList.add('hidden-page');
+                document.getElementById('login-section').classList.remove('hidden-page');
+                if(html5QrcodeScanner) html5QrcodeScanner.clear();
+            }
+        }
+
+        // AUTO CALCULATION
+        function autoCalc() {
+            const total = parseInt(document.getElementById('q-total').value) || 0;
+            const ok = parseInt(document.getElementById('q-ok').value) || 0;
+            const dmg = parseInt(document.getElementById('q-dmg').value) || 0;
+            const missing = total - (ok + dmg);
+            document.getElementById('q-missing').value = missing >= 0 ? missing : 0;
+        }
+
+        // PROCESS AND ADD DATA
+        function processData() {
+            const type = document.getElementById('item-type').value;
+            const total = parseInt(document.getElementById('q-total').value) || 0;
+            const ok = parseInt(document.getElementById('q-ok').value) || 0;
+            const dmg = parseInt(document.getElementById('q-dmg').value) || 0;
+            const missing = total - (ok + dmg);
+            const status = missing > 0 ? "SHORTAGE" : "CLEARED";
+
+            inventory.unshift({ type, total, ok, dmg, missing, status, id: "B-" + Math.floor(1000 + Math.random() * 9000) });
+            updateTable();
+            
+            // Reset fields
+            document.getElementById('q-ok').value = '';
+            document.getElementById('q-dmg').value = '';
+            document.getElementById('q-missing').value = '0';
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('inventory-rows');
+            tbody.innerHTML = '';
+            let t_in = 0, t_ok = 0, t_dmg = 0, t_mis = 0;
+
+            inventory.forEach(item => {
+                t_in += item.total; t_ok += item.ok; t_dmg += item.dmg; t_mis += item.missing;
+                const rowClass = item.missing > 0 ? 'missing-row' : '';
+                tbody.innerHTML += `
+                    <tr class="${rowClass} transition hover:bg-gray-50 text-sm">
+                        <td class="p-6 font-bold text-blue-900">${item.id}</td>
+                        <td class="font-medium">${item.type}</td>
+                        <td class="font-bold text-gray-600">${item.total.toLocaleString()}</td>
+                        <td class="text-green-600 font-black">${item.ok.toLocaleString()}</td>
+                        <td class="text-red-500 font-bold">${item.dmg.toLocaleString()}</td>
+                        <td class="text-yellow-600 font-black">${item.missing.toLocaleString()}</td>
+                        <td><span class="px-3 py-1 rounded-full text-[9px] font-bold ${item.missing > 0 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-700'}">${item.status}</span></td>
+                    </tr>`;
+            });
+
+            document.getElementById('top-inward').innerText = t_in.toLocaleString();
+            document.getElementById('top-ready').innerText = t_ok.toLocaleString();
+            document.getElementById('top-damaged').innerText = t_dmg.toLocaleString();
+            document.getElementById('top-missing').innerText = t_mis.toLocaleString();
+        }
+
+        // SCANNER LOGIC
+        let html5QrcodeScanner;
+        function toggleScanner() {
+            if (!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 200 });
+                html5QrcodeScanner.render((text) => alert("Scanned Batch: " + text));
+            } else {
+                html5QrcodeScanner.clear();
+                html5QrcodeScanner = null;
+            }
+        }
+    </script>
+</body>
+</html>

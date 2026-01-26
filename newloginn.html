@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC Admin Staff Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --rail-blue: #003399; --rail-gold: #ffcc00; }
+        
+        /* Wahi Same Background Jo Pehle Tha */
+        .login-screen {
+            background: linear-gradient(rgba(0, 34, 102, 0.8), rgba(0, 34, 102, 0.8)), 
+                        url('https://www.irctc.co.in/nget/assets/images/login-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex h-screen items-center justify-center login-screen overflow-hidden">
+
+    <div id="login-section" class="flex w-full h-full items-center justify-center">
+        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-yellow-500">
+            <div class="text-center mb-8">
+                <img src="https://www.irctc.co.in/nget/assets/images/logo.png" class="w-16 mx-auto mb-4">
+                <h1 class="text-2xl font-black text-blue-900 uppercase">Admin Staff Login</h1>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Laundry Management System</p>
+            </div>
+            
+            <form id="staffLoginForm" class="space-y-6">
+                <div>
+                    <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase">Staff ID</label>
+                    <input type="text" id="staff-id" required class="w-full bg-gray-50 border p-3 rounded-xl outline-none focus:ring-2 ring-blue-900" placeholder="e.g. IRCTC-45">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-500 ml-1 uppercase">Security Pin</label>
+                    <input type="password" id="staff-pin" required class="w-full bg-gray-50 border p-3 rounded-xl outline-none focus:ring-2 ring-blue-900" placeholder="••••">
+                </div>
+                <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-800 transition uppercase tracking-widest">
+                    Enter Dashboard
+                </button>
+            </form>
+            <p class="text-[9px] text-center text-gray-400 mt-6 italic underline">Authorized personnel only. Access is logged.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('staffLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const staffId = document.getElementById('staff-id').value;
+            
+            // Staff ID ko local storage mein save kar rahe hain taaki dashboard pe naam dikhe
+            localStorage.setItem('currentStaff', staffId);
+            
+            // Redirect to your dashboard file
+            window.location.href = "dashboard.html"; 
+        });
+    </script>
+</body>
+</html>
