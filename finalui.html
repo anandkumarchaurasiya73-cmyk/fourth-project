@@ -215,7 +215,7 @@
             const type = document.getElementById('item-type').value;
             const total = parseInt(document.getElementById('q-total').value) || 0;
             const ok = parseInt(document.getElementById('q-ok').value) || 0;
-            const dmg = parseInt(document.getElementById('q-dmg').value) || 0;
+            const dmg = parseInt(document.getElementById('q-dmg').value) || 0;                    
             const missing = total - (ok + dmg);
             const status = missing > 0 ? "SHORTAGE" : "CLEARED";
 
